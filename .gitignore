@@ -5,6 +5,10 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+## setting ##
+application.yml
+
+
 ### STS ###
 .apt_generated
 .classpath
