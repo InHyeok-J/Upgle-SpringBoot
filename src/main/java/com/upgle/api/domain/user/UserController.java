@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RequiredArgsConstructor
 @RestController
 public class UserController {
@@ -21,7 +23,7 @@ public class UserController {
     //회원가입
     @PostMapping("/api/user")
     public ResponseEntity<UserSignUpResponse> singUp(
-            @RequestBody UserSignUpRequest signUpRequest){
+            @Valid @RequestBody UserSignUpRequest signUpRequest){
         return ResponseEntity.ok().body(userService.signUp(signUpRequest));
     }
 }
