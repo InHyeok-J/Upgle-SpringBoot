@@ -9,6 +9,16 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity
+@Table(uniqueConstraints = {
+        @UniqueConstraint(
+                name = "snsUnique",
+                columnNames = {"snsId","snsType"}
+        ),
+        @UniqueConstraint(
+                name = "userNicknameKey",
+                columnNames = "nickname"
+        )
+})
 public class User {
 
     @Id
@@ -18,7 +28,7 @@ public class User {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "nickname")
     private String nickname;
 
     @Column(nullable = true)
@@ -39,10 +49,10 @@ public class User {
     @Column(nullable = true)
     private String interestTalent;
 
-    @Column(nullable = true)
+    @Column(nullable = true, name="snsId")
     private Long snsId;
 
-    @Column(nullable = true)
+    @Column(nullable = true, name="snsType")
     private String snsType;
 
     @Builder
