@@ -1,5 +1,6 @@
 package com.upgle.api.domain.user;
 
+import com.upgle.api.domain.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,7 @@ import javax.persistence.*;
                 columnNames = "nickname"
         )
 })
-public class User {
+public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
