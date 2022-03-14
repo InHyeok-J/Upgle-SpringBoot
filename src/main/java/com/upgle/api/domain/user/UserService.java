@@ -12,28 +12,28 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
+  private final UserRepository userRepository;
+  private final BCryptPasswordEncoder passwordEncoder;
 
-    public Long findById(Long id){
-        User user = userRepository.findById(id)
-                .orElseThrow(()-> new IllegalArgumentException("해당 유저가 없습니다 id:"+id));
-        return user.getId();
+  public Long findById(Long id) {
+    User user = userRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("해당 유저가 없습니다 id:" + id));
+    return user.getId();
+  }
+
+  public UserSignUpResponse signUp(UserSignUpRequest request) {
+    if (userRepository.existsUserByNickname(request.getNickname())) {
+      throw new IllegalArgumentException("닉네임 중복" + request.getNickname());
     }
+    String hashPassword = passwordEncoder.encode(request.getPassword());
+    User newUser = User.builder()
+        .nickname(request.getNickname())
+        .email(request.getEmail())
+        .password(hashPassword)
+        .build();
 
-    public UserSignUpResponse signUp(UserSignUpRequest request){
-        if(userRepository.existsUserByNickname(request.getNickname())){
-            throw new IllegalArgumentException("닉네임 중복" + request.getNickname());
-        }
-        String hashPassword = passwordEncoder.encode(request.getPassword());
-        User newUser = User.builder()
-                .nickname(request.getNickname())
-                .email(request.getEmail())
-                .password(hashPassword)
-                .build();
+    User savedUser = userRepository.save(newUser);
 
-        User savedUser = userRepository.save(newUser);
-
-        return new UserSignUpResponse(savedUser);
-    }
+    return new UserSignUpResponse(savedUser);
+  }
 }

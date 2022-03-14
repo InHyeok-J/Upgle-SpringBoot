@@ -12,18 +12,18 @@ import javax.validation.Valid;
 @RestController
 public class UserController {
 
-    private final UserService userService;
+  private final UserService userService;
 
-    //일단은 TEST
-    @GetMapping("/api/user/{id}")
-    public Long findById(@PathVariable Long id){
-        return userService.findById(id);
-    }
+  //일단은 TEST
+  @GetMapping("/api/user/{id}")
+  public Long findById(@PathVariable Long id) {
+    return userService.findById(id);
+  }
 
-    //회원가입
-    @PostMapping("/api/user")
-    public ResponseEntity<UserSignUpResponse> singUp(
-            @Valid @RequestBody UserSignUpRequest signUpRequest){
-        return ResponseEntity.ok().body(userService.signUp(signUpRequest));
-    }
+  //회원가입
+  @PostMapping("/api/user")
+  public ResponseEntity<UserSignUpResponse> singUp(
+      @Valid @RequestBody UserSignUpRequest signUpRequest) {
+    return ResponseEntity.ok().body(userService.signUp(signUpRequest));
+  }
 }
