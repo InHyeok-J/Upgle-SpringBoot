@@ -1,5 +1,6 @@
-package com.upgle.api.domain.user.dto;
+package com.upgle.api.domain.user.dto.request;
 
+import com.upgle.api.domain.user.User;
 import lombok.Getter;
 
 import javax.validation.constraints.Email;
@@ -17,4 +18,12 @@ public class UserSignUpRequest {
 
   @NotBlank
   private String password;
+
+  public User toEntity(String hashedPassword) {
+    return User.builder()
+        .email(this.email)
+        .nickname(this.nickname)
+        .password(hashedPassword)
+        .build();
+  }
 }

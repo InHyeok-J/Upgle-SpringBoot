@@ -29,5 +29,7 @@ public class CacheService {
     return valueOperations.get(key);
   }
 
-
+  public void deleteCacheByStringKey(String key) {
+    stringRedisTemplate.opsForValue().getAndDelete(key);
+  }
 }
