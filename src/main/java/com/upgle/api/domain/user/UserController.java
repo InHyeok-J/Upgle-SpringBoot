@@ -1,7 +1,7 @@
 package com.upgle.api.domain.user;
 
-import com.upgle.api.domain.user.dto.UserSignUpRequest;
-import com.upgle.api.domain.user.dto.UserSignUpResponse;
+import com.upgle.api.domain.user.dto.request.UserSignUpRequest;
+import com.upgle.api.domain.user.dto.response.UserSignUpResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -57,9 +57,10 @@ public class User extends BaseTimeEntity {
   private String snsType;
 
   @Builder
-  public User(String email, String nickname, String password) {
+  public User(String email, String nickname, String password, String snsType) {
     this.email = email;
     this.nickname = nickname;
     this.password = password;
+    this.snsType = snsType;
   }
 }

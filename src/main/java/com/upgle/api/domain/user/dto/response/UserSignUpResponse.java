@@ -1,4 +1,4 @@
-package com.upgle.api.domain.user.dto;
+package com.upgle.api.domain.user.dto.response;
 
 import com.upgle.api.domain.user.User;
 import lombok.Getter;
