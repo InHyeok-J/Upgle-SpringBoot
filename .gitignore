@@ -6,8 +6,11 @@ build/
 !**/src/test/**/build/
 
 ## setting ##
-application.yml
-
+!application.yml
+!application-test.yml
+application-dev.yml
+application-maildev.yml
+application-prod.yml
 
 ### STS ###
 .apt_generated
