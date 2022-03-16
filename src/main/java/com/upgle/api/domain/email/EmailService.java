@@ -4,8 +4,9 @@ import com.upgle.api.domain.cache.CacheService;
 import com.upgle.api.domain.email.dto.request.EmailAuthRequest;
 import com.upgle.api.domain.email.dto.request.EmailCheckRequest;
 import com.upgle.api.domain.email.dto.response.EmailAuthResponse;
-import com.upgle.api.domain.user.User;
 import com.upgle.api.domain.user.UserRepository;
+import com.upgle.api.exception.errors.AuthenticationFailException;
+import com.upgle.api.exception.errors.DuplicateResourceException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
@@ -23,7 +24,7 @@ public class EmailService {
   public EmailAuthResponse emailSend(EmailAuthRequest request) {
     if (userRepository.existsUserByEmailAndSnsType(request.getEmail(), "Local")) {
       // 이미 계정이 존재하면 (SNS TYPE = local 인 경우)
-      throw new RuntimeException("이미 계정이 존재함");
+      throw new DuplicateResourceException(request.getEmail());
     }
     //pre:checked -> 이메일 전송 후 인증안됨 -> 재인증 및 캐시 값 재설정
     //checked  -> 이메일 전송후 인증까지 완료됨 -> 인증된 유저라고 return
@@ -52,10 +53,10 @@ public class EmailService {
         cacheService.setCacheString(request.getEmail(), "checked", 600);//10분
         return new EmailAuthResponse("인증 성공!");
       } else {
-        throw new RuntimeException("인증 실패");
+        throw new AuthenticationFailException("이메일 code");
       }
     } else {
-      throw new RuntimeException("이메일 인증이 필요합니다.");
+      throw new AuthenticationFailException("이메일 인증이 필요합니다.");
     }
   }
 }
