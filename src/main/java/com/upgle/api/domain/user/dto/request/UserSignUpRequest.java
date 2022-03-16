@@ -24,7 +24,7 @@ public class UserSignUpRequest {
         .email(this.email)
         .nickname(this.nickname)
         .password(hashedPassword)
-        .snsType("local")
+        .snsType("Local")
         .build();
   }
 }
