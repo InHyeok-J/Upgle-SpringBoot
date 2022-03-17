@@ -1,12 +1,14 @@
 package com.upgle.api.domain.user.dto.request;
 
 import com.upgle.api.domain.user.User;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @Getter
+@AllArgsConstructor
 public class UserSignUpRequest {
 
   @Email
