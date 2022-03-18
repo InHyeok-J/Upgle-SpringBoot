@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@RequestMapping("/api/user")
 @RequiredArgsConstructor
 @RestController
 public class UserController {
@@ -15,13 +16,13 @@ public class UserController {
   private final UserService userService;
 
   //일단은 TEST
-  @GetMapping("/api/user/{id}")
+  @GetMapping("/{id}")
   public Long findById(@PathVariable Long id) {
     return userService.findById(id);
   }
 
   //회원가입
-  @PostMapping("/api/user")
+  @PostMapping("/")
   public ResponseEntity<UserSignUpResponse> singUp(
       @Valid @RequestBody UserSignUpRequest signUpRequest) {
     return ResponseEntity.ok().body(userService.signUp(signUpRequest));
