@@ -10,16 +10,18 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(uniqueConstraints = {
-    @UniqueConstraint(
-        name = "snsUnique",
-        columnNames = {"snsId", "snsType"}
-    ),
-    @UniqueConstraint(
-        name = "userNicknameKey",
-        columnNames = "nickname"
-    )
-})
+@Table(
+    name = "user",
+    uniqueConstraints = {
+        @UniqueConstraint(
+            name = "snsUnique",
+            columnNames = {"snsId", "snsType"}
+        ),
+        @UniqueConstraint(
+            name = "userNicknameKey",
+            columnNames = "nickname"
+        )
+    })
 public class User extends BaseTimeEntity {
 
   @Id
