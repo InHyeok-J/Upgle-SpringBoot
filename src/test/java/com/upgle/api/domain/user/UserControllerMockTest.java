@@ -8,7 +8,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.upgle.api.common.dto.CommonResponse;
 import com.upgle.api.domain.user.dto.request.UserSignUpRequest;
 import com.upgle.api.domain.user.dto.response.UserSignUpResponse;
 import java.nio.charset.StandardCharsets;

@@ -38,7 +38,7 @@ public class JwtProvider {
     long now = (new Date()).getTime();
     Date accessTokenExpiredIn = new Date(now + ACCESS_TOKE_EXPIRED_TIME_SECOND * 1000);
     String accessToken = Jwts.builder()
-        .setSubject(userEntity.getEmail())
+        .setSubject(userEntity.getId().toString())
         .setExpiration(accessTokenExpiredIn)
         .claim(AUTHORITIES_KEY, "USER")
         .signWith(key)

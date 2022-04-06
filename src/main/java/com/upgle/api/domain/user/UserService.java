@@ -10,6 +10,8 @@ import com.upgle.api.exception.errors.DuplicateResourceException;
 import com.upgle.api.exception.errors.NotFoundResourceException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,10 +24,11 @@ public class UserService {
   private final CacheService cacheService;
   private final JwtProvider jwtProvider;
 
-  public Long findById(Long id) {
+  public User findById(Long id) {
+
     User user = userRepository.findById(id)
         .orElseThrow(() -> new NotFoundResourceException("user"));
-    return user.getId();
+    return user;
   }
 
   public User signUp(UserSignUpRequest request) {
