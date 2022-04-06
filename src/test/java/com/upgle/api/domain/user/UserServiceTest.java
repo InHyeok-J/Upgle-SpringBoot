@@ -95,21 +95,20 @@ public class UserServiceTest {
     assertEquals(dto.getNickname() + "[중복]", exception.getMessage());
   }
 
-  @DisplayName("회원가입_성공시_UserSignUpResponse리턴")
+  @DisplayName("회원가입_성공시_User리턴")
   @Test
   void signUp_성공() {
     //given
     UserSignUpRequest dto = createSignUpRequestDto();
     String hashPassword = passwordEncoder.encode(dto.getPassword());
-    User savedUser = saveUserStub(dto,hashPassword);
+    User savedUser = saveUserStub(dto, hashPassword);
     given(cacheService.getCacheString(dto.getEmail())).willReturn("checked");
     given(userRepository.existsUserByNickname(dto.getNickname())).willReturn(false);
     given(userRepository.save(any(User.class))).willReturn(savedUser);
     //when
-    UserSignUpResponse response = userService.signUp(dto);
+    User response = userService.signUp(dto);
 
     //then
-    assertEquals(response.getClass(), UserSignUpResponse.class);
     assertEquals(response.getEmail(), dto.getEmail());
     assertEquals(response.getId(), 2L);
     assertEquals(response.getNickname(), dto.getNickname());

@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.upgle.api.common.dto.CommonResponse;
 import com.upgle.api.domain.user.dto.request.UserSignUpRequest;
 import com.upgle.api.domain.user.dto.response.UserSignUpResponse;
 import java.nio.charset.StandardCharsets;
@@ -38,7 +39,7 @@ public class UserControllerMockTest {
   void signUp_유효하지_않은_값() throws Exception {
     //given
     UserSignUpRequest request = invalidEmailSingUpRequestDto();
-    UserSignUpResponse res = new UserSignUpResponse(request.toEntity("query"));
+    User res = request.toEntity("query");
     given(userService.signUp(request)).willReturn(res);
     //when
     ResultActions resultActions = requestSignUp(request);
@@ -61,16 +62,16 @@ public class UserControllerMockTest {
 
     UserSignUpResponse res = new UserSignUpResponse(user);
 
-    given(userService.signUp(any(UserSignUpRequest.class))).willReturn(res);
+    given(userService.signUp(any(UserSignUpRequest.class))).willReturn(user);
 
     //when
     ResultActions resultActions = requestSignUp(request);
 
     //then
     resultActions.andExpect(status().isOk())
-        .andExpect(jsonPath("$.id").value(1L))
-        .andExpect(jsonPath("$.email").value(request.getEmail()))
-        .andExpect(jsonPath("$.nickname").value(request.getNickname()))
+        .andExpect(jsonPath("$.data.id").value(1L))
+        .andExpect(jsonPath("$.data.email").value(request.getEmail()))
+        .andExpect(jsonPath("$.data.nickname").value(request.getNickname()))
     ;
   }
 

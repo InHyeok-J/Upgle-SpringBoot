@@ -1,5 +1,6 @@
 package com.upgle.api.domain.user;
 
+import com.upgle.api.common.dto.CommonResponse;
 import com.upgle.api.domain.user.dto.request.UserSignUpRequest;
 import com.upgle.api.domain.user.dto.response.UserSignUpResponse;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +23,11 @@ public class UserController {
   }
 
   //회원가입
-  @PostMapping("/")
-  public ResponseEntity<UserSignUpResponse> singUp(
+  @PostMapping("")
+  public ResponseEntity<CommonResponse<?>> singUp(
       @Valid @RequestBody UserSignUpRequest signUpRequest) {
-    return ResponseEntity.ok().body(userService.signUp(signUpRequest));
+    CommonResponse<UserSignUpResponse> response = new CommonResponse<>(
+        new UserSignUpResponse(userService.signUp(signUpRequest)));
+    return ResponseEntity.ok().body(response);
   }
 }

@@ -24,7 +24,7 @@ public class UserService {
     return user.getId();
   }
 
-  public UserSignUpResponse signUp(UserSignUpRequest request) {
+  public User signUp(UserSignUpRequest request) {
     if (!("checked".equals(cacheService.getCacheString(request.getEmail())))) {
       throw new AuthenticationFailException("이메일 인증이 필요합니다");
     }
@@ -40,6 +40,6 @@ public class UserService {
 
     cacheService.deleteCacheByStringKey(request.getEmail());
     cacheService.deleteCacheByStringKey((request.getEmail() + "code"));
-    return new UserSignUpResponse(savedUser);
+    return savedUser;
   }
 }
