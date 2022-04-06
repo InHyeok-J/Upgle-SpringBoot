@@ -1,11 +1,14 @@
 package com.upgle.api.domain.user;
 
+import com.upgle.api.config.jwt.JwtProvider;
 import com.upgle.api.domain.cache.CacheService;
+import com.upgle.api.domain.user.dto.request.UserSignInRequest;
 import com.upgle.api.domain.user.dto.request.UserSignUpRequest;
 import com.upgle.api.domain.user.dto.response.UserSignUpResponse;
 import com.upgle.api.exception.errors.AuthenticationFailException;
 import com.upgle.api.exception.errors.DuplicateResourceException;
 import com.upgle.api.exception.errors.NotFoundResourceException;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,7 @@ public class UserService {
   private final UserRepository userRepository;
   private final BCryptPasswordEncoder passwordEncoder;
   private final CacheService cacheService;
+  private final JwtProvider jwtProvider;
 
   public Long findById(Long id) {
     User user = userRepository.findById(id)
@@ -41,5 +45,20 @@ public class UserService {
     cacheService.deleteCacheByStringKey(request.getEmail());
     cacheService.deleteCacheByStringKey((request.getEmail() + "code"));
     return savedUser;
+  }
+
+  public String SignIn(UserSignInRequest request) {
+    User findUser = userRepository.findByEmail(request.getEmail())
+        .orElseThrow(() -> new NotFoundResourceException("user"));
+
+    if (!passwordCheck(request.getPassword(), findUser.getPassword())) {
+      throw new AuthenticationFailException("패스워드가 일치하지 않습니다.");
+    }
+
+    return jwtProvider.createToke(findUser);
+  }
+
+  private boolean passwordCheck(String password, String encodedPassword) {
+    return passwordEncoder.matches(password, encodedPassword);
   }
 }

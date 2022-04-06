@@ -1,7 +1,9 @@
 package com.upgle.api.domain.user;
 
 import com.upgle.api.common.dto.CommonResponse;
+import com.upgle.api.domain.user.dto.request.UserSignInRequest;
 import com.upgle.api.domain.user.dto.request.UserSignUpRequest;
+import com.upgle.api.domain.user.dto.response.UserSignInResponse;
 import com.upgle.api.domain.user.dto.response.UserSignUpResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +30,15 @@ public class UserController {
       @Valid @RequestBody UserSignUpRequest signUpRequest) {
     CommonResponse<UserSignUpResponse> response = new CommonResponse<>(
         new UserSignUpResponse(userService.signUp(signUpRequest)));
+    return ResponseEntity.ok().body(response);
+  }
+
+  //로그인
+  @PostMapping("/signin")
+  public ResponseEntity<CommonResponse<?>> signIn(
+      @Valid @RequestBody UserSignInRequest signInRequest) {
+    CommonResponse<UserSignInResponse> response = new CommonResponse<>(new UserSignInResponse(
+        userService.SignIn(signInRequest)));
     return ResponseEntity.ok().body(response);
   }
 }
